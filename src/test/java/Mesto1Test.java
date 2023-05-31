@@ -6,16 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
-
 public class Mesto1Test {
-
     String bearerToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDJjNzRiYzQ3ZDM5YzAwM2RhNzcxODciLCJpYXQiOjE2ODU1NjU5MzIsImV4cCI6MTY4NjE3MDczMn0.GbFannPVjNLo1MAsbsgJ_HR0kZW5ZxpFMxBRIIT6JbI";
-
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://qa-mesto.praktikum-services.ru";
     }
-
     @Test
     @DisplayName("Add a new photo")
     @Description("This test is for adding a new photo to Mesto.")
@@ -27,7 +23,6 @@ public class Mesto1Test {
                 .post("/api/cards") // Делаем POST-запрос
                 .then().statusCode(201); // Проверяем код ответа
     }
-
     @Test
     @DisplayName("Like the first photo")
     @Description("This test is for liking the first photo on Mesto.")
@@ -37,7 +32,6 @@ public class Mesto1Test {
         likePhotoById(photoId);
         deleteLikePhotoById(photoId);
     }
-
     @Step("Take the first photo from the list")
     private String getTheFirstPhotoId() {
         // Получение списка фотографий и выбор первой из него
@@ -46,7 +40,6 @@ public class Mesto1Test {
                 .get("/api/cards") // Делаем GET-запрос
                 .then().extract().body().path("data[0]._id"); // Получаем ID фотографии из массива данных
     }
-
     @Step("Like a photo by id")
     private void likePhotoById(String photoId) {
         // Лайк фотографии по photoId
@@ -55,7 +48,6 @@ public class Mesto1Test {
                 .put("/api/cards/{photoId}/likes", photoId) // Делаем PUT-запрос
                 .then().assertThat().statusCode(200); // Проверяем, что сервер вернул код 200
     }
-
     @Step("Delete like from the photo by id")
     private void deleteLikePhotoById(String photoId) {
         // Снять лайк с фотографии по photoId
@@ -64,5 +56,4 @@ public class Mesto1Test {
                 .delete("/api/cards/{photoId}/likes", photoId) // Делаем DELETE-запрос
                 .then().assertThat().statusCode(200); // Проверяем, что сервер вернул код 200
     }
-
 }
